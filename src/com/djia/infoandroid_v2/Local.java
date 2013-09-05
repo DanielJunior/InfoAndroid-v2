@@ -17,6 +17,7 @@ public class Local {
 		this.c = c;
 	}
 
+	//pego a localização por um critério que verá o melhor provedor a ser usado
 	public void atualizaLocal() {
 		LM = (LocationManager) c.getSystemService(Context.LOCATION_SERVICE);
 		String bestProvider = LM.getBestProvider(new Criteria(), true);

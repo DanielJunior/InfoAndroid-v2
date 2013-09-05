@@ -14,6 +14,7 @@ import android.telephony.gsm.GsmCellLocation;
 public class Antena {
 
 	private GsmCellLocation cellLocation;
+	//cid = CellID (id da torre) lac = Location Area Code
 	private int myLatitude, myLongitude, cid, lac;
 	private boolean result;
 	private float antenaLatitude, antenaLongitude;
@@ -23,7 +24,8 @@ public class Antena {
 		cid = cellLocation.getCid();
 		lac = cellLocation.getLac();
 	}
-
+//esse método achei na net , com ele que eh possível converter o cid e lac para latitude e longitude
+	// ele faz conexão com a internet
 	private void conversao() {
 		result = false;
 		String urlmmap = "http://www.google.com/glm/mmap";

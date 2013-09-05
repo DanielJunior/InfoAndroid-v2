@@ -3,10 +3,11 @@ package com.djia.infoandroid_v2;
 import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
 
+/*Essa classe eh responsavel por obter a potencia do sinal de rede*/
 public class Sinal extends PhoneStateListener {
-private int asu,dBm;
+	private int asu, dBm;
 
-@Override
+	@Override
 	public void onSignalStrengthsChanged(SignalStrength signalStrength) {
 		// TODO Auto-generated method stub
 		super.onSignalStrengthsChanged(signalStrength);
@@ -14,11 +15,11 @@ private int asu,dBm;
 		dBm = -113 + (2 * asu);
 	}
 
-public int getAsu() {
-	return asu;
-}
+	public int getAsu() {
+		return asu;
+	}
 
-public int getdBm() {
-	return dBm;
-}
+	public int getdBm() {
+		return dBm;
+	}
 }

@@ -12,6 +12,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
+@SuppressLint("SimpleDateFormat")
 public class Save {
 	private RandomAccessFile raf;
 	private File file;
@@ -25,37 +26,62 @@ public class Save {
 		conexoes = new ConexoesInternet();
 	}
 
-	@SuppressLint("SimpleDateFormat")
 	public void gravar() {
-		//verifico se realmente estou conectado a internet
+		// verifico se realmente estou conectado a internet
 		if (conexoes.isOnline(c)) {
-			Toast.makeText(c, "Serviço iniciado!", Toast.LENGTH_SHORT).show();
+			//Toast.makeText(c, "Serviço iniciado!", Toast.LENGTH_SHORT).show();
 			try {
-				//verifico se tenho um sdcard
+				// verifico se tenho um sdcard
 				if (isExternalStorageWritable()) {
-					//crio o arquivo ou abro se ele jah existe
+					// crio o arquivo ou abro se ele jah existe
 					file = new File(Environment.getExternalStorageDirectory(),
 							"logConexões.txt");
 					raf = new RandomAccessFile(file, "rw");
 					data = new Date();
-					//formato da data
+					// formato da data
 					SimpleDateFormat formatadorBrasil = new SimpleDateFormat(
 							"dd-MM-yyyy HH:mm:ss");
-					//string que irei escrever no arquivo
+					// string que irei escrever no arquivo
 					info = "Conexão estabelecida em: "
 							+ formatadorBrasil.format(data);
-					//vou para o final do arquivo
+					// vou para o final do arquivo
 					raf.seek(raf.length());
-					//escrevo no arquivo
+					// escrevo no arquivo
 					raf.writeBytes(info + "\n");
 					// raf.writeUTF(info + "\n");
-					//fecho o arquivo
+					// fecho o arquivo
 					raf.close();
-					Toast.makeText(c, "Escrevi!", Toast.LENGTH_SHORT).show();
+					//Toast.makeText(c, "Escrevi!", Toast.LENGTH_SHORT).show();
 				} else {
 					Toast.makeText(c, "SDCard indiponível...",
 							Toast.LENGTH_SHORT).show();
 				}
+			} catch (IOException e) {
+				Log.d("ERRO_DE_ESCRITA", e.toString());
+			}
+		}
+	}
+
+	public void gravarMudancaRede(String ifs) {
+		if (isExternalStorageWritable()) {
+			try {
+				// crio o arquivo ou abro se ele jah existe
+				file = new File(Environment.getExternalStorageDirectory(),
+						"logMudançaRede.txt");
+				raf = new RandomAccessFile(file, "rw");
+				data = new Date();
+				// formato da data
+				SimpleDateFormat formatadorBrasil = new SimpleDateFormat(
+						"dd-MM-yyyy HH:mm:ss");
+				// string que irei escrever no arquivo
+				info = "Mudança ocorrida em: " + formatadorBrasil.format(data)+"\n"+ifs;
+				// vou para o final do arquivo
+				raf.seek(raf.length());
+				// escrevo no arquivo
+				raf.writeBytes(info + "\n");
+				// raf.writeUTF(info + "\n");
+				// fecho o arquivo
+				raf.close();
 			} catch (IOException e) {
 				Log.d("ERRO_DE_ESCRITA", e.toString());
 			}

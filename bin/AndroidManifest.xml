@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+	<!--<uses-permission android:name="android.permission.VIBRATE"/>-->
 	
     <application
         android:allowBackup="true"
@@ -26,9 +27,12 @@
         <service android:name=".Servico" />
 <!-- AQUI DECLARO O RECEIVER RESPONSÁVEL POR MONITORAR A MUDANÇA DA CONECTIVIDADE SEJA POR MOBILE DATA OU WIFI -->
         <receiver android:name=".InternetReceiver" >
-            <intent-filter>
+            <intent-filter android:label="@+id/NET">
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+            </intent-filter>
+            <intent-filter android:label="@+id/MOBILE">
+                <action android:name="android.intent.action.SERVICE_STATE"/>
             </intent-filter>
         </receiver>
 <!-- ESSE CONFIGCHANGES FAZ A APLICAÇÃO NÃO REINICAR AO GIRAR A TELA -->

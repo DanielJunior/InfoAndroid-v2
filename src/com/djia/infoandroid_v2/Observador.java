@@ -10,29 +10,41 @@ public class Observador {
 	private String operadora, ID;
 	private Sinal sinal;
 	private Antena antena;
+	private static final String SEM_SINAL = "INDISPONÍVEL";
 
 	// cid = cell id
 	// lac = location area code
 	public Observador(Context c) {
-		//esse manager eh responsável por fornecer o IMEI , operadora e obter o ID da antena e o LAC
+		// esse manager eh responsável por fornecer o IMEI , operadora e obter o
+		// ID da antena e o LAC
 		tel = (TelephonyManager) c.getSystemService(Context.TELEPHONY_SERVICE);
 		sinal = new Sinal();
-		antena = new Antena((GsmCellLocation) tel.getCellLocation());
-		operadora = tel.getSimOperatorName();
 		ID = tel.getDeviceId();
-		observar();
+		operadora = tel.getSimOperatorName();
+		//se tiver sinal...
+		if (tel.getCellLocation() != null) {
+			antena = new Antena((GsmCellLocation) tel.getCellLocation());
+			observar();
+		} else {
+			antena = null;
+			operadora = SEM_SINAL;
+		}
 	}
-//recupero os dados atuais da antena que estou conectado e potencia de sinal, tbm tento atualizar a latitude e longitude da antena
-	//que só será possível com a conexão com a internet
+
+	// recupero os dados atuais da antena que estou conectado e potencia de
+	// sinal, tbm tento atualizar a latitude e longitude da antena
+	// que só será possível com a conexão com a internet
 	public void observar() {
-		antena = new Antena((GsmCellLocation) tel.getCellLocation());
+		if (tel.getCellLocation() != null) {
+			antena = new Antena((GsmCellLocation) tel.getCellLocation());
+			antena.isResult();
+		}
 		tel.listen(sinal, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
-		antena.isResult();
 	}
 
 	public void parar() {
-		// para o listener para economizar bateria
-		tel.listen(sinal, PhoneStateListener.LISTEN_NONE);
+			// para o listener para economizar bateria
+			tel.listen(sinal, PhoneStateListener.LISTEN_NONE);
 	}
 
 	public String getOperadora() {

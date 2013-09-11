@@ -1,6 +1,5 @@
 package com.djia.infoandroid_v2;
 
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.res.Configuration;
@@ -13,6 +12,7 @@ public class MainActivity extends Activity {
 	private Bateria bateria;
 	private Local local;
 	private Observador observador;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -35,14 +35,17 @@ public class MainActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onConfigurationChanged(newConfig);
 	}
-@Override
-protected void onPause() {
-	// TODO Auto-generated method stub
-	super.onPause();
-	observador.parar();
-}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		observador.parar();
+	}
+
 	public void atualizar(View view) {
-		Toast.makeText(this, "Aguarde um instante por favor...", Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, "Aguarde um instante por favor...",
+				Toast.LENGTH_SHORT).show();
 		observador.observar();
 		local.atualizaLocal();
 		bateria.atualizaBateria();
@@ -52,21 +55,34 @@ protected void onPause() {
 		bat.setText("Nível de bateria: " + bateria.getNivel() + "%");
 		TextView lat = (TextView) findViewById(R.id.lat);
 		TextView longi = (TextView) findViewById(R.id.longi);
-		if ( !observador.getAntena().isResult()) {
+		TextView antena = (TextView) findViewById(R.id.antena_id);
+		TextView lac = (TextView) findViewById(R.id.lac);
+		if ((observador.getAntena() == null)) {
 			lat.setText("Latitude : INDISPONÍVEL (SEM CONEXÃO)");
 			longi.setText("Longitude: INDISPONÍVEL (SEM CONEXÃO)");
+			antena.setText("ID Antena: INDISPONÍVEL (SEM SINAL)");
+			lac.setText("Location Area Code(LAC): INDISPONÍVEL (SEM SINAL)");
+
+		} else if (!observador.getAntena().isResult()) {
+			lat.setText("Latitude : INDISPONÍVEL (SEM CONEXÃO)");
+			longi.setText("Longitude: INDISPONÍVEL (SEM CONEXÃO)");
+			antena.setText("ID Antena: " + observador.getAntena().getCid());
+			lac.setText("Location Area Code(LAC): "
+					+ observador.getAntena().getLac());
 		} else {
-			lat.setText("Latitude : " + observador.getAntena().getAntenaLatitude());
-			longi.setText("Longitude: " + observador.getAntena().getAntenaLongitude());
+			lat.setText("Latitude : "
+					+ observador.getAntena().getAntenaLatitude());
+			longi.setText("Longitude: "
+					+ observador.getAntena().getAntenaLongitude());
+			antena.setText("ID Antena: " + observador.getAntena().getCid());
+			lac.setText("Location Area Code(LAC): "
+					+ observador.getAntena().getLac());
 		}
-		TextView antena = (TextView) findViewById(R.id.antena_id);
-		antena.setText("ID Antena: "+observador.getAntena().getCid());
-		TextView lac = (TextView) findViewById(R.id.lac);
-		lac.setText("Location Area Code(LAC): "+observador.getAntena().getLac());
 		TextView op = (TextView) findViewById(R.id.operadora);
 		op.setText("Operadora: " + observador.getOperadora());
 		TextView sinal = (TextView) findViewById(R.id.sinal);
-		sinal.setText("Nível de sinal: " + observador.getSinal().getdBm() + "dBm");
-		
+		sinal.setText("Nível de sinal: " + observador.getSinal().getdBm()
+				+ "dBm");
+
 	}
 }

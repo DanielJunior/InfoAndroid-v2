@@ -9,14 +9,15 @@ public class DataBaseSave extends SQLiteOpenHelper {
 	public static final String COLUMN_LATITUDE = "LATITUDE";
 	public static final String COLUMN_LONGITUDE = "LONGITUDE";
 	public static final String COLUMN_SINAL = "SINAL";
-
+	public static final String COLUMN_OPERADORA = "OPERADORA";
 	private static final String DATABASE_NAME = "info.db";
 	private static final int DATABASE_VERSION = 1;
 
 	private static final String DATABASE_CREATE = "create table" + TABLE_INFO
 			+ " ( " + COLUMN_LATITUDE + " real not null, " + 
 			COLUMN_LONGITUDE+ " real not null, " +
-			COLUMN_SINAL + " integer,"
+			COLUMN_SINAL + " integer,"+
+			COLUMN_OPERADORA + " varchar(10),"
 			+ "CONSTRAINT pk_chave primary key(LATITUDE,LONGITUDE,SINAL);";
 
 	public DataBaseSave(Context context) {

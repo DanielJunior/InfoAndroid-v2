@@ -6,20 +6,26 @@ import android.location.Location;
 public class Dados implements Infos {
 	private Observador obs;
 	private Local local;
+	private Location l;
+	private Sinal s;
+	private String o;
 
 	public Dados(Context c) {
 		obs = new Observador(c);
 		local = new Local(c);
 	}
 
+	public Dados(){
+	}
+
 	@Override
 	public Sinal getSinal() {
-		return obs.getSinal();
+		return s;
 	}
 
 	@Override
 	public Location local() {
-		return local.getLocation();
+		return l;
 
 	}
 
@@ -28,6 +34,15 @@ public class Dados implements Infos {
 		// TODO Auto-generated method stub
 		obs.observar();
 		local.atualizaLocal();
+		l = local.getLocation();
+		s = obs.getSinal();
+		o = obs.getOperadora();
+	}
+
+	@Override
+	public String getOperadora() {
+		// TODO Auto-generated method stub
+		return o;
 	}
 
 }
